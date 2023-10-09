@@ -55,4 +55,16 @@ public class ColorDisplay extends Display {
 		}
 		return print;
 	}
+
+	public void setColorScreen(int[][][] newScreen) {
+		assert newScreen.length == screen.length;
+		assert newScreen[0].length == screen[0].length;
+		assert newScreen[1].length == screen[1].length;
+		
+		for(int i = 0; i < screen.length; i++) {
+			for(int j = 0; j < screen[0].length; j++) {
+				setPixelColor(i,j,newScreen[i][j][0], newScreen[i][j][1], newScreen[i][j][2]);
+			}
+		}
+	}
 }

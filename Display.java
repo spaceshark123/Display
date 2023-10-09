@@ -3,7 +3,7 @@ import java.lang.*;
 import java.io.*;
 
 public class Display {
-	protected char[][] screen;
+	protected double[][] screen;
 	protected int width, height;
 	protected final String pixels = ".'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
 
@@ -12,10 +12,10 @@ public class Display {
 	}
 	
 	public Display(int width, int height) {
-		screen = new char[height][width];
+		screen = new double[height][width];
 		for(int i = 0; i < screen.length; i++) {
 			for(int j = 0; j < screen[0].length; j++) {
-				screen[i][j] = pixelOfBrightness(0);
+				screen[i][j] = 0;
 			}
 		}
 		this.width = width;
@@ -24,7 +24,7 @@ public class Display {
 
 	public final int getWidth() { return width; }
 	public final int getHeight() { return height; }
-	public final char[][] getScreen() { return screen; }
+	public final double[][] getScreen() { return screen; }
 	
 	public char pixelOfBrightness(double brightness) {
 		//brightness is a double between 0 and 1
@@ -35,30 +35,34 @@ public class Display {
 	}
 
 	public void setPixel(int x, int y, double brightness) {
-		screen[y][x] = pixelOfBrightness(brightness);
+		screen[y][x] = brightness;
 	}
 
 	public double getBrightness(int x, int y) {
-		char p = screen[y][x];
-		int index = -1;
-		for(int i = 0; i < pixels.length(); i++) {
-			if(pixels.charAt(i) == p) {
-				index = i;
-				break;
-			}
-		}
-		return (double)index / pixels.length();
+		return screen[y][x];
 	}
 
 	public String toString() {
 		String print = "";
 		for(int i = 0; i < screen.length; i++) {
 			for(int j = 0; j < screen[0].length; j++) {
-				print += screen[i][j];
-				print += screen[i][j];
+				char pixel = pixelOfBrightness(screen[i][j]);
+				print += pixel;
+				print += pixel;
 			}
 			print += "\n";
 		}
 		return print;
+	}
+
+	public void setScreen(double[][] newScreen) {
+		assert newScreen.length == screen.length;
+		assert newScreen[0].length == screen[0].length;
+
+		for(int i = 0; i < screen.length; i++) {
+			for(int j = 0; j < screen[0].length; j++) {
+				setPixel(i,j,newScreen[i][j]);
+			}
+		}
 	}
 }
