@@ -7,23 +7,32 @@ import javax.imageio.ImageIO;
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.net.URL;
 
 public class Main {
    public static void main(String[] args) throws IOException {
 		Scanner scan = new Scanner(System.in);
 
-	   //get input file as BufferedImage
+	   //get input image
 	   	BufferedImage img = null;
-		try {
+	   out("do you want to input a url (1) or a file path (2)? ");
+	   int choice = scan.nextInt();
+	   if (choice == 1) {
+	   		out("enter url: ");
+	   		String url = scan.next();
+	   		img = ImageIO.read(new URL(url));
+	   } else if (choice == 2) {
+		   try {
 			out("path to image: ");
 			File imageFile = new File(scan.nextLine());
 		    img = ImageIO.read(imageFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	   	if(img == null) {
-			out("img is still null.");
-		}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		   	if(img == null) {
+				out("img is still null.");
+			}
+	   }
 
 	   out("character width (2x): ");
 	   int ASCIIwidth = Math.max(0,scan.nextInt());
